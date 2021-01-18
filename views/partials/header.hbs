@@ -1,0 +1,16 @@
+<!-- Start header -->
+    <header id="Header">
+        <nav class="navbar navbar-expand-sm navbar-expand-xl navbar-light bg-light">
+            <!-- Logo -->
+            <a class="navbar-brand" href="/"><i class="fas fa-book-reader"></i>Tân Phước</a>
+            <!-- Search -->
+            <form class="form-inline mx-auto" action="http://localhost:5000/searchBook" method="GET">
+                <input class="form-control formSearch" name="noidungtimkiem" type="text" placeholder="Nhập nội dung cần tìm">
+                <button class="btn btn-outline-success " type="submit">Tìm kiếm</button>
+            </form>
+            <!-- Sign in/ Sign out -->
+            {{{forindex}}} <!-- de danh dau login -->
+            <a href="/Signin" class="btn btn-outline-primary active" role="button" aria-pressed="true">{{{header}}}</a>
+        </nav>
+    </header>
+<!-- End header -->

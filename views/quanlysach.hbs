@@ -1,0 +1,199 @@
+    <!--Start Main -->
+<div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+    <div class="mucTongQuan">
+        <h3>Danh sách sách</h3>
+    </div>
+    <div class="row quanLyHienThiThongTin">
+        <form class="form-inline mx-auto" action="http://localhost:5000/searchSach" method="GET">
+            <input class="form-control formSearch" name="noidungtimkiem" type="text" placeholder="Nhập nội dung cần tìm" style="padding-right: 60px;">
+            <button class="btn btn-outline-success " type="submit" style="margin-left: 37px;">Tìm kiếm</button>
+        </form>
+
+    </div>
+    <div class="row TimtheoTheLoai">
+        <a class="btn btn-outline-secondary dropdown-toggle ml-auto" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Thể loại</a>
+
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" href="/quanlysach">Tất cả</a>
+                <a class="dropdown-item" href="/quanlysach/Tử vi - Phong Thủy" >Tử vi - Phong Thủy</a>
+                <a class="dropdown-item" href="/quanlysach/Văn Học" >Văn Học</a>
+                <a class="dropdown-item" href="/quanlysach/Tiểu Thuyết">Tiểu Thuyết</a>
+                <a class="dropdown-item" href="/quanlysach/Kinh Tế" >Kinh Tế</a>
+                <a class="dropdown-item" href="/quanlysach/Xã Hội" >Xã Hội</a>
+                <a class="dropdown-item" href="/quanlysach/Chính Trị" >Chính Trị</a>
+                <a class="dropdown-item" href="/quanlysach/Lịch Sử" >Lịch Sử</a>
+                <a class="dropdown-item" href="/quanlysach/Khoa Học" >Khoa Học</a>
+    </div>
+
+
+    </div>
+    <table class="table bangNhanVien">
+        <thead>
+            <tr>
+                <th>Tên sách</th>
+                <th>Tác giả</th>
+                <th>Thể loại</th>
+                <th>Tùy chỉnh</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each bookAll}}
+            <tr>
+                <td>{{tensach}}</td>
+                <td>{{tentacgia}}</td>
+                <td>{{theloai}}</td>
+
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#chinhSuaSach{{stt}}">Edit</button>
+                    <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#xoaSach{{stt}}" >Xóa</button>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#chiTietSach{{stt}}">Detail</button>
+                </td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+        </table>
+            <!--Phân trang -->
+        <div class="row">
+            {{#if hasPagination}}
+            <nav aria-label="Page navigation example" class="mx-auto">
+                {{{paginate pagination}}}
+            </nav>
+            {{/if}}
+        </div>
+</div>
+    <!--End Main -->
+
+
+<!--Chỉnh sửa sách-->
+    {{#each bookAll}}
+    <div class="modal fade" id="chinhSuaSach{{stt}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Chỉnh sửa Sách</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div class="modal-body">
+            <form class="formDkyTV" action="http://localhost:5000/editBookAdmin" method="POST">
+                <input type="hidden" id="{{id}}" name="soIDBook" value="{{id}}">
+
+                <div class="form-group row">
+                    <label for="etenSach" class="col-3 labelName">Tên sách</label>
+                    <input type="text" class="form-control col-8" name="etenSach" id="etenSach" value="{{tensach}}">
+                </div>
+
+                <div class="form-group row">
+                    <label for="etenTacGia" class="col-3 labelName">Tên tác giả</label>
+                    <input type="text" class="form-control col-8" name="etenTacGia" id="etenTacGia" value="{{tentacgia}}">
+                </div>
+
+                <div class="form-group row">
+                    <label for="etLoai" class="col-3 labelName">Thể loại</label>
+                    <input type="text" class="form-control col-8" id="etLoai" name="etLoai" value="{{theloai}}">
+                </div>
+
+                <div class="form-group row">
+                    <label for="esoLuong" class="col-3 labelName">Số lượng</label>
+                    <input type="text" class="form-control col-8" id="esoLuong" name="esoLuong" value="{{soluong}}">
+                </div>
+
+                <div class="form-group row">
+                    <label for="engayNhap" class="col-3 labelName">Ngày nhập</label>
+                    <input type="text" class="form-control col-8" id="engayNhap" name="engayNhap" value="{{ngaynhap}}" >
+                </div>
+
+                <div class="form-group row">
+                    <label for="emoTaSach" class="col-3 labelName">Mô tả</label>
+                    <textarea class="form-control col-8" id="emoTaSach" name="emoTaSach" rows="5">{{mota}}</textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary float-right">Đồng ý</button>
+                
+            </form>
+
+
+        </div>
+
+        </div>
+    </div>
+    </div>
+    {{/each}}
+<!--End Chỉnh sửa sách-->
+
+<!--Chi tiết sách-->
+    {{#each bookAll}}
+    <div class="modal fade" id="chiTietSach{{stt}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Thông tin Sách</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <form class="formDkyTV">
+
+                <div class="form-group row">
+                    <img id="anh" class="img-thumbnail" src="/uploads{{image}}" alt="" style="width: 200px; height: 200px; overflow: hidden; margin: 0 auto;">  
+                </div>  
+
+                <div class="form-group row">
+                    <label for="tenSach" class="col-3 labelName">Tên sách</label>
+                    <input type="text" class="form-control col-8" name="tenSach" id="tenSach" placeholder="{{tensach}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="tenTacGia" class="col-3 labelName">Tên tác giả</label>
+                    <input type="text" class="form-control col-8" name="tenTacGia" id="tenTacGia" placeholder="{{tentacgia}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="tLoai" class="col-3 labelName">Thể loại</label>
+                    <input type="text" class="form-control col-8" id="tLoai" name="tLoai" placeholder="{{theloai}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="soLuong" class="col-3 labelName">Số lượng</label>
+                    <input type="text" class="form-control col-8" id="soLuong" name="soLuong" placeholder="{{soluong}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="ngayNhap" class="col-3 labelName">Ngày nhập</label>
+                    <input type="email" class="form-control col-8" id="ngayNhap" name="ngayNhap" placeholder="{{ngaynhap}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="moTaSach" class="col-3 labelName">Mô tả</label>
+                    <textarea class="form-control col-8" id="moTaSach" name="moTaSach" rows="5" placeholder="{{mota}}" readonly></textarea>
+                </div>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+    {{/each}}
+<!--End Chi tiết sách-->
+
+<!--Xóa Thành Viên-->
+    {{#each bookAll}}
+    <div class="modal fade" id="xoaSach{{stt}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Bạn muốn xóa sách này ?</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div class="modal-body">
+            <form class="formDkyTV" action="http://localhost:5000/removeBook" method="GET">
+                <input type="hidden" id="{{id}}" name="soIDDeleteBooks" value="{{id}}">
+                <button type="submit" class="btn btn-primary float-right">Đồng ý</button>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+    {{/each}}
+<!--End Xóa Thành Viên-->

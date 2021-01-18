@@ -1,0 +1,205 @@
+
+<!--Start Main -->
+    <div class="col-9 col-sm-9 col-md-9 col-lg-9 col-xl-9">
+        <div class="mucTongQuan">
+            <h3>Danh sách nhân viên</h3>
+        </div>
+        <div class="row quanLyHienThiThongTin">
+            <form class="form-inline mx-auto" action="http://localhost:5000/searchNhanVien" method="GET">
+                <input class="form-control formSearch" name="noidungtimkiem" type="text" placeholder="Nhập nội dung cần tìm" style="padding-right: 60px;">
+                <button class="btn btn-outline-success " type="submit" style="margin-left: 37px;">Tìm kiếm</button>
+            </form>
+        </div>  
+
+        <table class="table bangNhanVien">
+            <thead>
+                <tr>
+                    <th>Số thứ tự</th>
+                    <th>Họ và tên</th>
+                    <th>Chức vụ</th>
+                    <th>Tùy chỉnh</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each nhanvienAll}}
+                <tr>
+                    <th>{{stt}}</th>
+                    <td>{{hoten}}</td>
+                    <td>Thủ thư</td>
+                    <td>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#chinhSuaNhanVien{{stt}}">Chỉnh sửa</button>
+                        <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#xoaNhanVien{{stt}}" >Xóa</button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#chiTietNhanVien{{stt}}">Chi tiết</button>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+            </table>
+    </div>
+<!--End Main -->
+
+<!--Chi tiết Thành Viên-->
+    {{#each nhanvienAll}}
+    <div class="modal fade" id="chiTietNhanVien{{stt}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Thông tin thành viên</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <form class="formDkyTV">
+                <div class="form-group row">
+                    <img id="anh" class="img-thumbnail" src="/uploads{{image}}" alt="" style="width: 200px; height: 200px; overflow: hidden; margin: 0 auto;">  
+                </div>  
+                <div class="form-group row">
+                    <label for="hVTen" class="col-3 labelName">Họ và tên</label>
+                    <input type="text" class="form-control col-8" name="hVTen" id="hVTen" placeholder="{{hoten}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="gTinh" class="col-3 labelName">Giới tính</label>
+                    <input type="text" class="form-control col-8" name="gTinh" id="gTinh" placeholder="{{gioitinh}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="soCMND" class="col-3 labelName">Số CMND</label>
+                    <input type="text" class="form-control col-8" id="soCMND" name="soCMND"placeholder="{{cmnd}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="sdThoai" class="col-3 labelName">Số điện thoại</label>
+                    <input type="text" class="form-control col-8" id="sdThoai" name="sdThoai" placeholder="{{sdt}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="dToc" class="col-3 labelName">Dân tộc</label>
+                    <input type="text" class="form-control col-8" id="dToc" name="dToc" placeholder="{{dantoc}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="ngaySinh" class="col-3 labelName">Ngày sinh</label>
+                    <input class="form-control col-8" type="text" id="ngaySinh" name="ngaySinh" placeholder="{{ngaysinh}}" readonly>
+                </div>
+
+                <div class="form-group row">
+                    <label for="eMail" class="col-3 labelName">Email</label>
+                    <input type="email" class="form-control col-8" id="eMail" name="eMail" placeholder="{{email}}" readonly>
+                </div>
+                <div class="form-group row">
+                    <label for="eMail" class="col-3 labelName">Ngày lập</label>
+                    <input type="email" class="form-control col-8" id="eMail" name="eMail" placeholder="{{ngaylap}}" readonly>
+                </div>
+                <div class="form-group row">
+                    <label for="diaChi" class="col-3 labelName">Địa chỉ</label>
+                    <textarea class="form-control col-8" id="diaChi" name="diaChi" rows="5" placeholder="{{diachi}}" readonly></textarea>
+                </div>
+            </form>
+        </div>
+
+        </div>
+    </div>
+    </div>
+    {{/each}}
+<!--End Chi tiết Thành Viên-->
+
+<!--Chỉnh sửa Thành Viên-->
+    {{#each nhanvienAll}}
+    <div class="modal fade" id="chinhSuaNhanVien{{stt}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Chỉnh sửa thành viên</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div class="modal-body">
+            <form class="formDkyTV" action="http://localhost:5000/editStaff" method="POST" enctype="multipart/form-data">
+                <input type="hidden" id="{{id}}" name="soID" value="{{id}}">
+                <div class="form-group row">
+                    <label for="hVTen" class="col-3 labelName">Họ và tên</label>
+                    <input type="text" class="form-control col-8" name="ehVTen" id="ehVTen" value="{{hoten}}">
+                </div>
+
+                <div class="form-group row">
+                    <label for="gTinh" class="col-3 labelName">Giới tính</label>
+                    <select id="egTinh" name="egTinh" class="form-control col-8"  >
+                        <option disabled selected hidden>{{gioitinh}}</option>
+                        <option>Nam</option>
+                        <option>Nữ</option>
+                    </select>
+                </div>
+
+                <div class="form-group row">
+                    <label for="soCMND" class="col-3 labelName">Số CMND</label>
+                    <input type="text" class="form-control col-8" id="esoCMND" name="esoCMND" value="{{cmnd}}" >
+                </div>
+
+                <div class="form-group row">
+                    <label for="sdThoai" class="col-3 labelName">Số điện thoại</label>
+                    <input type="text" class="form-control col-8" id="esdThoai" name="esdThoai" value="{{sdt}}" >
+                </div>
+
+                <div class="form-group row">
+                    <label for="dToc" class="col-3 labelName">Dân tộc</label>
+                    <input type="text" class="form-control col-8" id="edToc" name="edToc" value="{{dantoc}}" >
+                </div>
+
+                <div class="form-group row">
+                    <label for="ngaySinh" class="col-3 labelName">Ngày sinh</label>
+                    <input class="form-control col-8" type="text" id="engaySinh" name="engaySinh" value="{{ngaysinh}}">
+                </div>
+
+                <div class="form-group row">
+                    <label for="eMail" class="col-3 labelName">Email</label>
+                    <input type="email" class="form-control col-8" id="eeMail" name="eeMail" value="{{email}}">
+                </div>
+
+                <div class="form-group row">
+                    <label for="diaChi" class="col-3 labelName">Địa chỉ</label>
+                    <textarea class="form-control col-8" id="ediaChi" name="ediaChi" rows="5">{{diachi}}</textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="anh" class="col-3 labelName">Chọn ảnh</label>
+                    <div class="col-8">
+                        <img id="anh{{id}}" alt="your image" width="100px" height="100px" src="{{image}}"/>
+                        <input type="file"  name='ima' value="{{image}}" onchange="document.getElementById('anh{{id}}').src = window.URL.createObjectURL(this.files[0])">
+                    </div>
+                    
+                </div>
+
+                <button type="submit" class="btn btn-primary float-right">Đồng ý</button>
+                
+            </form>
+
+
+        </div>
+
+        </div>
+    </div>
+    </div>
+    {{/each}}
+<!--End Chỉnh sửa Thành Viên-->
+
+<!--Xóa Thành Viên-->
+    {{#each nhanvienAll}}
+    <div class="modal fade" id="xoaNhanVien{{stt}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Bạn muốn xóa thành viên này ?</h5>
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+        </div>
+
+        <div class="modal-body">
+            <form class="formDkyTV" action="http://localhost:5000/removeStaff" method="GET">
+                <input type="hidden" id="{{id}}" name="soIDDelete" value="{{id}}">
+                <button type="submit" class="btn btn-primary float-right">Đồng ý</button>
+            </form>
+        </div>
+        </div>
+    </div>
+    </div>
+    {{/each}}
+<!--End Xóa Thành Viên-->
