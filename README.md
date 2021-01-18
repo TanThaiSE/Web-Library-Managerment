@@ -4,7 +4,7 @@
   - nodemon index.js
   - http://localhost:5000/
   - Enjoy
-# In here, I use:
+# In this project, I use:
   - Front End: HTML,CSS,JS,Boostrap
   - Back End: NodeJs, Express, Handlebars
   - Database: Postgresql
